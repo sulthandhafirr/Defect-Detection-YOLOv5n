@@ -12,8 +12,9 @@ This file is included in the repository. It contains two classes:
 - `normal`: Clean, defect-free plastic bottles.
 - `defect`: Bottles with visual defects such as cracks or dents.
 
-**🏋️‍♀️ Training the Model**
+# Training the Model
 The training process is done using the notebook file: YOLOv5train.ipynb
+
 You can open this notebook in Google Colab or locally using Jupyter Notebook.
 
 # 📌 Steps to train:
