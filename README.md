@@ -1,4 +1,4 @@
-# YOLOv5-Defect-Detection
+# Plastic Bottle YOLOv5n Defect Detection
 
 This project provides a simple AI-based solution to detect defects in plastic bottles using the YOLOv5s object detection model. It is designed to help automate the quality control process in manufacturing, allowing faster and more accurate inspections.
 
