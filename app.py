@@ -1,3 +1,8 @@
+import pathlib
+# Fix error when loading model saved in Windows on Linux
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
+
 import streamlit as st
 import os
 import sys
@@ -7,39 +12,30 @@ import cv2
 import numpy as np
 from PIL import Image
 
-# Disable Streamlit's file watcher to avoid inotify limit error
+# Disable Streamlit file watcher to prevent inotify limit errors
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 
-# Add yolov5 to path
+# Add yolov5 directory to path
 sys.path.append(str(Path(__file__).resolve().parent / "yolov5"))
 
-# Import YOLOv5 utilities
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
 
 # Load model
 @st.cache_resource
 def load_model():
-    # Patch WindowsPath untuk menghindari error saat load model di Linux
-    import pathlib
-    temp = pathlib.PosixPath
-    pathlib.PosixPath = pathlib.WindowsPath
-    
-    from models.experimental import attempt_load
-    model = attempt_load("yolov5s_bottle6.pt")  # Tanpa map_location
+    model = attempt_load("yolov5s_bottle6.pt")
     model.eval()
-    
-    # Kembalikan patch agar tidak berdampak ke modul lain
-    pathlib.PosixPath = temp
-    
     return model
-    
+
 model = load_model()
 
-# Resize and pad image
+# Restore PosixPath after model is loaded
+pathlib.PosixPath = temp
 
+# Resize and pad image
 def letterbox(im, new_shape=640, color=(114, 114, 114), auto=False, scaleFill=False, scaleup=True, stride=32):
-    shape = im.shape[:2]  # current shape [height, width]
+    shape = im.shape[:2]
     if isinstance(new_shape, int):
         new_shape = (new_shape, new_shape)
     r = min(new_shape[0] / shape[0], new_shape[1] / shape[1])
@@ -57,8 +53,7 @@ def letterbox(im, new_shape=640, color=(114, 114, 114), auto=False, scaleFill=Fa
     im = cv2.copyMakeBorder(im, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
     return im, ratio, (dw, dh)
 
-# Draw detection box with label
-
+# Draw bounding box
 def draw_box(img, xyxy, label=None, color=(0, 255, 0), thickness=2):
     x1, y1, x2, y2 = map(int, xyxy)
     cv2.rectangle(img, (x1, y1), (x2, y2), color, thickness)
@@ -73,13 +68,12 @@ def draw_box(img, xyxy, label=None, color=(0, 255, 0), thickness=2):
         cv2.rectangle(img, (text_x, text_y - text_h), (text_x + text_w, text_y), color, -1)
         cv2.putText(img, label, (text_x, text_y), font, font_scale, (255, 255, 255), font_thickness)
 
-# Inference logic
-
+# Inference
 def detect(image):
     original_img = np.array(image)
     img = original_img.copy()
     img_resized, ratio, (dw, dh) = letterbox(img, 640)
-    img_resized = img_resized.transpose((2, 0, 1))  # HWC to CHW
+    img_resized = img_resized.transpose((2, 0, 1))
     img_resized = np.ascontiguousarray(img_resized)
     img_resized = torch.from_numpy(img_resized).float()
     img_resized /= 255.0
@@ -107,8 +101,7 @@ def detect(image):
 
     return img_result
 
-# Streamlit layout
-
+# Streamlit interface
 st.set_page_config(page_title="Bottle Defect Detection", layout="centered", page_icon="🥴")
 menu = st.sidebar.selectbox("Select Page", ["Home", "Upload Image", "Webcam Real-time"])
 
