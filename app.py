@@ -7,6 +7,9 @@ import sys
 from pathlib import Path
 import pathlib
 
+from yolov5.models.experimental import attempt_load
+from yolov5.utils.general import non_max_suppression
+
 # Fix for Windows path
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
