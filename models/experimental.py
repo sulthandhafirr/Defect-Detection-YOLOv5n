@@ -6,7 +6,8 @@ import math
 import numpy as np
 import torch
 import torch.nn as nn
-from ultralytics.utils.patches import torch_load
+def torch_load(*args, **kwargs):
+    return torch.load(*args, **kwargs)
 
 from utils.downloads import attempt_download
 
