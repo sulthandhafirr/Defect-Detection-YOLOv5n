@@ -7,3 +7,4 @@ matplotlib
 pyyaml
 requests
 tqdm
+git+https://github.com/ultralytics/yolov5.git
