@@ -1,10 +1,12 @@
-streamlit
-torch
+streamlit==1.35.0
+torch>=1.10
 opencv-python
 numpy
 Pillow
-matplotlib
 pyyaml
-requests
+matplotlib
 tqdm
+seaborn
+scipy
+requests
 git+https://github.com/ultralytics/yolov5.git
