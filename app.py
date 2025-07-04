@@ -13,8 +13,7 @@ import pathlib
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
-from pathlib import Path, PurePosixPath
-model = attempt_load(str(PurePosixPath('yolov5s_bottle6.pt')))
+model = attempt_load('yolov5s_bottle6.pt')
 
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
