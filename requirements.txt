@@ -1,9 +1,10 @@
 streamlit==1.35.0
-torch>=2.0
-torchvision==0.14.1
-opencv-python
+torch==2.1.2
+torchvision==0.16.2
 numpy
+opencv-python-headless
 Pillow
+numpy
 pyyaml
 matplotlib
 seaborn
