@@ -35,16 +35,10 @@ import torchvision
 import yaml
 
 # Import 'ultralytics' package or install if missing
-try:
-    import ultralytics
+import torch
 
-    assert hasattr(ultralytics, "__version__")  # verify package is not directory
-except (ImportError, AssertionError):
-    os.system("pip install -U ultralytics")
-    import ultralytics
-
-from ultralytics.utils.checks import check_requirements
-from ultralytics.utils.patches import torch_load
+def torch_load(*args, **kwargs):
+    return torch.load(*args, **kwargs)
 
 from utils import TryExcept, emojis
 from utils.downloads import curl_download, gsutil_getsize
