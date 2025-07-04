@@ -1,20 +1,8 @@
 import streamlit as st
 import torch
-import cv2
 import numpy as np
+import cv2
 from PIL import Image
-import sys
-from pathlib import Path
-import pathlib
-
-from yolov5.models.experimental import attempt_load
-from yolov5.utils.general import non_max_suppression
-
-# Fix for Windows path
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
-
-sys.path.append(str(Path(__file__).parent / 'yolov5'))
 
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
