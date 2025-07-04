@@ -1,7 +1,4 @@
-# Streamlit app
 streamlit==1.35.0
-
-# YOLOv5 core dependencies
 torch==1.13.1
 torchvision==0.14.1
 opencv-python
@@ -9,19 +6,7 @@ numpy
 Pillow
 pyyaml
 matplotlib
-scipy
-tqdm
 seaborn
+tqdm
 requests
-
-# For model download + other utils
 pandas
-ultralytics
-addict
-
-# Gradio-style bounding box & label formatting
-python-box
-colorama
-
-# To auto-download YOLOv5 repo
-git+https://github.com/ultralytics/yolov5.git
