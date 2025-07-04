@@ -13,6 +13,9 @@ import pathlib
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
+# Tambahkan folder 'yolov5' ke sys.path
+sys.path.append(str(Path(__file__).resolve().parent / "yolov5"))
+
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
 
