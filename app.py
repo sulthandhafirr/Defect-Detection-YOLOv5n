@@ -13,10 +13,10 @@ import pathlib
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
-model = attempt_load('yolov5s_bottle6.pt')
-
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
+
+model = attempt_load('yolov5s_bottle6.pt')
 
 # Letterbox
 def letterbox(im, new_shape=640, color=(114, 114, 114), auto=False, scaleFill=False, scaleup=True, stride=32):
