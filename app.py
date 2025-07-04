@@ -20,10 +20,20 @@ from utils.general import non_max_suppression
 # Load model
 @st.cache_resource
 def load_model():
-    model = attempt_load("yolov5s_bottle6.pt", map_location="cpu")
+    # Patch WindowsPath untuk menghindari error saat load model di Linux
+    import pathlib
+    temp = pathlib.PosixPath
+    pathlib.PosixPath = pathlib.WindowsPath
+    
+    from models.experimental import attempt_load
+    model = attempt_load("yolov5s_bottle6.pt")  # Tanpa map_location
     model.eval()
+    
+    # Kembalikan patch agar tidak berdampak ke modul lain
+    pathlib.PosixPath = temp
+    
     return model
-
+    
 model = load_model()
 
 # Resize and pad image
