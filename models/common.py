@@ -22,19 +22,6 @@ import torch.nn as nn
 from PIL import Image
 from torch.cuda import amp
 
-# Import 'ultralytics' package or install if missing
-try:
-    import ultralytics
-
-    assert hasattr(ultralytics, "__version__")  # verify package is not directory
-except (ImportError, AssertionError):
-    import os
-
-    os.system("pip install -U ultralytics")
-    import ultralytics
-
-from ultralytics.utils.plotting import Annotator, colors, save_one_box
-
 from utils import TryExcept
 from utils.dataloaders import exif_transpose, letterbox
 from utils.general import (
@@ -55,7 +42,6 @@ from utils.general import (
     yaml_load,
 )
 from utils.torch_utils import copy_attr, smart_inference_mode
-
 
 def autopad(k, p=None, d=1):
     """
