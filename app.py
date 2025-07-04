@@ -11,6 +11,7 @@ import torch
 import cv2
 import numpy as np
 from PIL import Image
+from models.common import DetectMultiBackend  # atau model you used
 
 # Disable Streamlit file watcher to prevent inotify limit errors
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
@@ -24,11 +25,10 @@ from utils.general import non_max_suppression
 # Load model
 @st.cache_resource
 def load_model():
-    from models.experimental import attempt_load
-    model = attempt_load("yolov5s_bottle6_linux.pt")
+    weights_path = "yolov5s_bottle6_weights_only.pt"  # update path jika perlu
+    model = DetectMultiBackend(weights_path, device="cpu")
     model.eval()
     return model
-
 
 model = load_model()
 
