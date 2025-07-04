@@ -24,9 +24,11 @@ from utils.general import non_max_suppression
 # Load model
 @st.cache_resource
 def load_model():
-    model = attempt_load("yolov5s_bottle6.pt")
+    from models.experimental import attempt_load
+    model = attempt_load("yolov5s_bottle6_linux.pt")
     model.eval()
     return model
+
 
 model = load_model()
 
