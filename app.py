@@ -1,11 +1,20 @@
 import streamlit as st
 import torch
-import numpy as np
 import cv2
+import numpy as np
 from PIL import Image
+import sys
+from pathlib import Path
+import pathlib
 
-from yolov5.models.experimental import attempt_load
-from yolov5.utils.general import non_max_suppression
+# Fix for Windows path
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
+
+sys.path.append(str(Path(__file__).parent / 'yolov5'))
+
+from models.experimental import attempt_load
+from utils.general import non_max_suppression
 
 # Letterbox
 def letterbox(im, new_shape=640, color=(114, 114, 114), auto=False, scaleFill=False, scaleup=True, stride=32):
@@ -142,19 +151,19 @@ if menu == "Home":
 
 # Upload image page
 elif menu == "Upload Image":
-    st.header("Upload Image")
+    st.header("📸 Upload Image")
     uploaded_file = st.file_uploader("Upload a bottle image", type=["jpg", "jpeg", "png"])
     col1, col2 = st.columns(2)
     if uploaded_file:
         image = Image.open(uploaded_file).convert("RGB")
         col1.image(image, caption="Original Image", use_container_width=True)
-        if col1.button("Detect"):
+        if col1.button("🔍 Detect"):
             result = detect(image)
             col2.image(result, caption="Detection Result", use_container_width=True)
 
 # Webcam page
 elif menu == "Webcam Real-time":
-    st.header("Real-time Camera")
+    st.header("🎥 Real-time Camera")
     run = st.checkbox("Enable Camera")
     frame_window = st.image([], use_container_width=True)
 
