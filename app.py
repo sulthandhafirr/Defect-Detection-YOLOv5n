@@ -4,8 +4,8 @@ import numpy as np
 import cv2
 from PIL import Image
 
-from models.experimental import attempt_load
-from utils.general import non_max_suppression
+from yolov5.models.experimental import attempt_load
+from yolov5.utils.general import non_max_suppression
 
 # Letterbox
 def letterbox(im, new_shape=640, color=(114, 114, 114), auto=False, scaleFill=False, scaleup=True, stride=32):
