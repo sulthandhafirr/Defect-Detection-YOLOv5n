@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 import torch
 import cv2
 import numpy as np
@@ -11,7 +13,8 @@ import pathlib
 temp = pathlib.PosixPath
 pathlib.PosixPath = pathlib.WindowsPath
 
-sys.path.append(str(Path(__file__).parent / 'yolov5'))
+from pathlib import Path, PurePosixPath
+model = attempt_load(str(PurePosixPath('yolov5s_bottle6.pt')))
 
 from models.experimental import attempt_load
 from utils.general import non_max_suppression
