@@ -21,8 +21,6 @@ You can open this notebook in Google Colab or locally using Jupyter Notebook.
 3. Make sure the dataset path in the notebook points to your extracted bottledataset6/ folder.
 
 
----
-
 ## ▶️ How to Run `app.py` Locally
 
 Follow these steps to run the app on your local machine:
@@ -34,7 +32,14 @@ Download the following files and place them in the same folder:
 - `yolov5s_bottledataset.onnx`
 - (optional) `requirements.txt` if using `pip install -r requirements.txt`
 
----
+## 📂 Project Structure
+
+Defect-Detection/
+│
+├── app.py # Streamlit web app
+├── yolov5s_bottledataset.onnx # Trained YOLOv5n ONNX model
+├── requirements.txt # Dependencies
+└── (Optional) sample/ # Sample images (auto-loaded from GitHub)
 
 ### 2. 🐍 Install Dependencies
 
@@ -43,6 +48,9 @@ Make sure Python 3.8+ is installed. Then run:
 ```bash
 pip install -r requirements.txt
 
+Or install manually:
+
+pip install streamlit opencv-python pillow numpy onnxruntime
 
 # Credits
 - Dataset sources: Roboflow, Kaggle, Google Images
