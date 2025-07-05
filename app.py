@@ -199,6 +199,8 @@ if menu == "Home":
             <li><b>Deployment:</b> Streamlit</li>
         </ul>
 
+        <hr>
+        
         <p style='text-align: center; margin-top: 20px;'>
             <a href='https://github.com/sulthandhafirr/Defect-Detection-YOLOv5n' target='_blank' style='margin-right: 10px;'>
                 <img src='https://img.shields.io/badge/View_Code-GitHub-181717?logo=github&style=for-the-badge'>
@@ -207,8 +209,6 @@ if menu == "Home":
                 <img src='https://img.shields.io/badge/Train_Model-Colab-F9AB00?logo=googlecolab&style=for-the-badge'>
             </a>
         </p>
-
-        <hr>
 
         <p class='footer'>
             Developed by: <b>Sulthan Dhafir Rafief</b>
