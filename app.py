@@ -126,47 +126,81 @@ menu = st.sidebar.selectbox("Select Page", ["Home", "Upload Image", "Webcam Real
 # Home page
 if menu == "Home":
     st.markdown("""
-        <h1 style='color: #2e86c1; text-align: center; margin-bottom: 5px;'>Plastic Bottle Defect Detection</h1>
-        <p style='text-align: center; font-size: 18px; color: #444; margin-bottom: 30px;'>
+        <style>
+            .home-title {
+                color: #0066cc;
+                text-align: center;
+                margin-bottom: 5px;
+            }
+            .home-subtitle {
+                text-align: center;
+                font-size: 18px;
+                color: #333;
+                margin-bottom: 30px;
+            }
+            .home-section-title {
+                color: #0066cc;
+                margin-top: 25px;
+            }
+            .home-text, .home-list {
+                font-size: 16px;
+                color: #111;
+            }
+            .home-alert {
+                font-size: 16px;
+                color: #b30000;
+                background-color: #ffe6e6;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #b30000;
+            }
+            .footer {
+                text-align: center;
+                font-size: 14px;
+                color: #666;
+                margin-top: 30px;
+            }
+        </style>
+
+        <h1 class='home-title'>Plastic Bottle Defect Detection</h1>
+        <p class='home-subtitle'>
             Automated quality control system powered by computer vision
         </p>
 
-        <hr style='margin: 25px 0;'>
+        <hr>
 
-        <h3 style='color: #2e86c1;'>Description</h3>
-        <p style='font-size: 16px; color: #222;'>
+        <h3 class='home-section-title'>Description</h3>
+        <p class='home-text'>
             An AI-powered system that classifies bottles as <b>normal</b> or <b>defective</b> in real-time using <b>YOLOv5s</b>.
             Features dual input modes (image upload + live camera) with confidence-based filtering. Built with Python and deployed via Streamlit.
         </p>
 
-        <h3 style='color: #2e86c1;'>Detection Visualization</h3>
-        <ul style='font-size: 16px; color: #222;'>
+        <h3 class='home-section-title'>Detection Visualization</h3>
+        <ul class='home-list'>
             <li>🔴 <b>Red Bounding Box</b>: Defective bottle</li>
             <li>🟢 <b>Green Bounding Box</b>: Normal bottle</li>
         </ul>
 
-        <h3 style='color: #2e86c1;'>Confidence Threshold</h3>
-        <ul style='font-size: 16px; color: #222;'>
+        <h3 class='home-section-title'>Confidence Threshold</h3>
+        <ul class='home-list'>
             <li>Only displays detections with <b>> 50%</b> confidence</li>
         </ul>
 
-        <h3 style='color: #2e86c1;'>Real-time Camera Notice</h3>
-        <p style='font-size: 16px; color: #aa0000;'>
+        <h3 class='home-section-title'>Real-time Camera Notice</h3>
+        <p class='home-alert'>
             ⚠️ The real-time detection feature requires access to your local webcam.<br>
-            To use this feature, please run the app locally using the provided <code>app.py</code> file in the GitHub repository.
+            To use this feature, please run the app locally using the <code>app.py</code> file from the GitHub repository.
         </p>
 
-        <h3 style='color: #2e86c1;'>Tech Stack</h3>
-        <ul style='font-size: 15px; color: #222;'>
+        <h3 class='home-section-title'>Tech Stack</h3>
+        <ul class='home-list'>
             <li><b>AI Model:</b> YOLOv5s (PyTorch)</li>
             <li><b>Computer Vision:</b> OpenCV, Albumentations</li>
             <li><b>Data Processing:</b> NumPy, Pandas</li>
             <li><b>Deployment:</b> Streamlit</li>
         </ul>
-                   
-        <br>
-                
-        <p style='text-align: center;'>
+
+        <p style='text-align: center; margin-top: 20px;'>
             <a href='https://github.com/sulthandhafirr/Defect-Detection-YOLOv5n' target='_blank' style='margin-right: 10px;'>
                 <img src='https://img.shields.io/badge/View_Code-GitHub-181717?logo=github&style=for-the-badge'>
             </a>
@@ -175,9 +209,7 @@ if menu == "Home":
             </a>
         </p>
 
-        <hr style='margin: 30px 0;'>
-
-        <p style='text-align: center; font-size: 14px; color: #555;'>
+        <p class='footer'>
             Developed by: <b>Sulthan Dhafir Rafief</b>
         </p>
     """, unsafe_allow_html=True)
