@@ -39,7 +39,6 @@ def preprocess(image):
     return img, ratio, dw, dh
 
 # Post-process ONNX output
-# --- Tambahan fungsi bantu ---
 def iou(box1, box2):
     xi1 = max(box1[0], box2[0])
     yi1 = max(box1[1], box2[1])
@@ -63,10 +62,10 @@ def nms_numpy(boxes, iou_threshold=0.45):
         ]
     return final_boxes
 
-# --- Fungsi utama postprocess ---
+# --- postprocess ---
 def postprocess(prediction, img_shape, ratio, dw, dh, conf_thres=0.5, iou_thres=0.45):
     boxes = []
-    pred = prediction[0]  # shape (25200, 85)
+    pred = prediction[0]
     for det in pred:
         obj_conf = det[4]
         class_probs = det[5:]
@@ -114,11 +113,6 @@ def detect(image):
     result_img = draw_boxes(img_np.copy(), boxes)
     return result_img
 
-# Hide text input in selectbox (biar tidak bisa diketik)
-# Inject CSS to disable typing but keep dropdown clickable
-
-
-
 # --- Streamlit UI ---
 st.set_page_config(page_title="Bottle Defect Detection", layout="centered", page_icon="🧴")
 menu = st.sidebar.selectbox("Select Page", ["Home", "Upload Image", "Webcam Real-time"])
@@ -127,31 +121,30 @@ menu = st.sidebar.selectbox("Select Page", ["Home", "Upload Image", "Webcam Real
 if menu == "Home":
     st.markdown("""
         <h1 style='color: #2e86c1; text-align: center; margin-bottom: 5px;'>Plastic Bottle Defect Detection</h1>
-        <p style='text-align: center; font-size: 18px; color: #444; margin-bottom: 30px;'>
+        <p style='text-align: center; font-size: 18px; color: #aaa; margin-bottom: 30px;'>
             Automated quality control system powered by computer vision
         </p>
 
         <hr style='margin: 25px 0;'>
 
         <h3 style='color: #2e86c1;'>Description</h3>
-        <p style='font-size: 16px; color: #222;'>
-            An AI-powered system that classifies bottles as <b>normal</b> or <b>defective</b> in real-time using <b>YOLOv5s</b>.
-            Features dual input modes (image upload + live camera) with confidence-based filtering. Built with Python and deployed via Streamlit.
+        <p style='font-size: 16px; color: #ddd;'>
+        An AI-powered system that classifies bottles as <b>normal</b> or <b>defective</b> in real-time using <b>YOLOv5s</b>. Features dual input modes (image upload + live camera) with confidence-based filtering. Built with Python and deployed via Streamlit.
         </p>
 
         <h3 style='color: #2e86c1;'>Detection Visualization</h3>
-        <ul style='font-size: 16px; color: #222;'>
+        <ul style='font-size: 16px; color: #ddd;'>
             <li>🔴 <b>Red Bounding Box</b>: Defective bottle</li>
             <li>🟢 <b>Green Bounding Box</b>: Normal bottle</li>
         </ul>
 
         <h3 style='color: #2e86c1;'>Confidence Threshold</h3>
-        <ul style='font-size: 16px; color: #222;'>
+        <ul style='font-size: 16px; color: #ddd;'>
             <li>Only displays detections with <b>> 50%</b> confidence</li>
         </ul>
 
         <h3 style='color: #2e86c1;'>Tech Stack</h3>
-        <ul style='font-size: 15px; color: #222;'>
+        <ul style='font-size: 15px;'>
             <li><b>AI Model:</b> YOLOv5s (PyTorch)</li>
             <li><b>Computer Vision:</b> OpenCV, Albumentations</li>
             <li><b>Data Processing:</b> NumPy, Pandas</li>
@@ -171,7 +164,7 @@ if menu == "Home":
 
         <hr style='margin: 30px 0;'>
 
-        <p style='text-align: center; font-size: 14px; color: #555;'>
+        <p style='text-align: center; font-size: 14px; color: #666;'>
             Developed by: <b>Sulthan Dhafir Rafief</b>
         </p>
     """, unsafe_allow_html=True)
