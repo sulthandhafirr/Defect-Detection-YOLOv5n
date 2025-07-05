@@ -135,10 +135,14 @@ elif menu == "Webcam Real-time":
             # Pastikan hasil detect() berupa ndarray BGR agar bisa ditampilkan
             return cv2.cvtColor(result, cv2.COLOR_RGB2BGR)
 
-    st.header("📷 Real-time Detection")
+    st.header("Real-time Detection")
     
     webrtc_streamer(
         key="realtime",
+        mode=WebRtcMode.SENDRECV,
+        rtc_configuration={
+            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+        },
         video_processor_factory=VideoProcessor,
         media_stream_constraints={"video": True, "audio": False},
         video_html_attrs={
