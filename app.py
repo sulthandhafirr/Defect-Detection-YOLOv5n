@@ -125,11 +125,19 @@ elif menu == "Upload Image":
 
 elif menu == "Webcam Real-time":
     class VideoProcessor(VideoTransformerBase):
-        def transform(self, frame):
-            img = frame.to_ndarray(format="bgr24")
-            img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            pil_img = Image.fromarray(img_rgb)
-            result_img = detect(pil_img)
-            return result_img
+    def transform(self, frame):
+        img = frame.to_ndarray(format="bgr24")
+        result_img = detect(Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)))
+        return result_img
 
-    webrtc_streamer(key="realtime", video_transformer_factory=VideoProcessor)
+    webrtc_streamer(
+        key="webcam",
+        video_processor_factory=VideoProcessor,
+        media_stream_constraints={"video": True, "audio": False},
+        video_html_attrs={
+            "autoPlay": True,
+            "controls": False,
+            "style": {"width": "100%", "height": "auto"}, 
+        },
+    )
+
