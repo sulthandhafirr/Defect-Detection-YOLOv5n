@@ -127,17 +127,23 @@ elif menu == "Webcam Real-time":
     class VideoProcessor(VideoTransformerBase):
         def transform(self, frame):
             img = frame.to_ndarray(format="bgr24")
-            result_img = detect(Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)))
-            return result_img
+            
+            # Convert ke PIL Image dulu untuk `detect()` kamu
+            pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+            result = detect(pil_img)
+            
+            # Pastikan hasil detect() berupa ndarray BGR agar bisa ditampilkan
+            return cv2.cvtColor(result, cv2.COLOR_RGB2BGR)
 
+    st.header("📷 Real-time Detection")
+    
     webrtc_streamer(
-        key="webcam",
+        key="realtime",
         video_processor_factory=VideoProcessor,
         media_stream_constraints={"video": True, "audio": False},
         video_html_attrs={
             "autoPlay": True,
             "controls": False,
-            "style": {"width": "100%", "height": "auto"}, 
+            "style": {"width": "100%", "height": "480px"},  # Kamera besar
         },
     )
-
