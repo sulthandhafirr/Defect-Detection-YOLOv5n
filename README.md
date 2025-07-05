@@ -2,7 +2,7 @@
 
 This project provides a simple AI-based solution to detect defects in plastic bottles using the YOLOv5s object detection model. It is designed to help automate the quality control process in manufacturing, allowing faster and more accurate inspections.
 
-# 📦 Dataset
+# Dataset
 
 Download and extract the dataset before training:
 
@@ -12,7 +12,7 @@ This file is included in the repository. It contains two classes:
 - `normal`: Clean, defect-free plastic bottles.
 - `defect`: Bottles with visual defects such as cracks or dents.
 
-# 📌 Steps to train:
+# Steps to train:
 The training process is done using the notebook file: YOLOv5train.ipynb
 
 You can open this notebook in Google Colab or locally using Jupyter Notebook.
@@ -21,11 +21,11 @@ You can open this notebook in Google Colab or locally using Jupyter Notebook.
 3. Make sure the dataset path in the notebook points to your extracted bottledataset6/ folder.
 
 
-## ▶️ How to Run `app.py` Locally
+## How to Run `app.py` Locally
 
 Follow these steps to run the app on your local machine:
 
-### 1. 🔽 Download Files
+### 1. Download Files
 
 Download the following files and place them in the same folder:
 - `app.py`
@@ -33,7 +33,7 @@ Download the following files and place them in the same folder:
 - (optional) `requirements.txt` if using `pip install -r requirements.txt`
 
 
-### 2. 🐍 Install Dependencies
+### 2. Install Dependencies
 
 Make sure Python 3.8+ is installed. Then run:
 
