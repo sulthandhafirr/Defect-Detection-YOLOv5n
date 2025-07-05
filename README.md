@@ -20,6 +20,30 @@ You can open this notebook in Google Colab or locally using Jupyter Notebook.
 2. Run each cell step by step.
 3. Make sure the dataset path in the notebook points to your extracted bottledataset6/ folder.
 
+
+---
+
+## ▶️ How to Run `app.py` Locally
+
+Follow these steps to run the app on your local machine:
+
+### 1. 🔽 Download Files
+
+Download the following files and place them in the same folder:
+- `app.py`
+- `yolov5s_bottledataset.onnx`
+- (optional) `requirements.txt` if using `pip install -r requirements.txt`
+
+---
+
+### 2. 🐍 Install Dependencies
+
+Make sure Python 3.8+ is installed. Then run:
+
+```bash
+pip install -r requirements.txt
+
+
 # Credits
 - Dataset sources: Roboflow, Kaggle, Google Images
 - Object Detection: YOLOv5 by Ultralytics
