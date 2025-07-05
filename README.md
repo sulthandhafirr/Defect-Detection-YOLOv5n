@@ -32,14 +32,6 @@ Download the following files and place them in the same folder:
 - `yolov5s_bottledataset.onnx`
 - (optional) `requirements.txt` if using `pip install -r requirements.txt`
 
-## 📂 Project Structure
-
-Defect-Detection/
-│
-├── app.py # Streamlit web app
-├── yolov5s_bottledataset.onnx # Trained YOLOv5n ONNX model
-├── requirements.txt # Dependencies
-└── (Optional) sample/ # Sample images (auto-loaded from GitHub)
 
 ### 2. 🐍 Install Dependencies
 
@@ -47,11 +39,29 @@ Make sure Python 3.8+ is installed. Then run:
 
 ```bash
 pip install -r requirements.txt
-
+```
 Or install manually:
-
+```bash
 pip install streamlit opencv-python pillow numpy onnxruntime
+```
+
+### 3. Run the App
+In the terminal, navigate to the project folder and run:
+
+```bash
+streamlit run app.py
+A browser tab will open at:
+```
+or 
+```bash
+http://localhost:8501
+```
 
 # Credits
 - Dataset sources: Roboflow, Kaggle, Google Images
 - Object Detection: YOLOv5 by Ultralytics
+- Conversion to ONNX: PyTorch → ONNX export
+- Web Interface: Streamlit
+
+---
+Developed by: Sulthan Dhafir Rafief
