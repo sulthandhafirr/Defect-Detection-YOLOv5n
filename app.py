@@ -123,7 +123,6 @@ def detect(image):
 st.set_page_config(page_title="Bottle Defect Detection", layout="centered", page_icon="🧴")
 menu = st.sidebar.selectbox("Select Page", ["Home", "Upload Image", "Webcam Real-time"])
 
-# Home page
 if menu == "Home":
     st.markdown("""
         <style>
@@ -135,7 +134,7 @@ if menu == "Home":
             .home-subtitle {
                 text-align: center;
                 font-size: 18px;
-                color: #333;
+                color: inherit;
                 margin-bottom: 30px;
             }
             .home-section-title {
@@ -144,20 +143,20 @@ if menu == "Home":
             }
             .home-text, .home-list {
                 font-size: 16px;
-                color: #111;
+                color: inherit;
             }
             .home-alert {
                 font-size: 16px;
-                color: #b30000;
-                background-color: #ffe6e6;
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid #b30000;
+                background-color: rgba(255, 0, 0, 0.1);
+                color: currentColor;
+                padding: 12px;
+                border-radius: 6px;
+                border-left: 5px solid #ff4d4d;
             }
             .footer {
                 text-align: center;
                 font-size: 14px;
-                color: #666;
+                color: inherit;
                 margin-top: 30px;
             }
         </style>
