@@ -29,7 +29,7 @@ Follow these steps to run the app on your local machine:
 
 Download the following files and place them in the same folder:
 - `app.py`
-- `yolov5s_bottledataset.onnx`
+- `yolov5s_bottledataset6.onnx`
 - (optional) `requirements.txt` if using `pip install -r requirements.txt`
 
 
