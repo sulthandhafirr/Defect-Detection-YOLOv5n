@@ -123,29 +123,26 @@ elif menu == "Upload Image":
                 st.image(result, caption="Detection Result", use_container_width=True)
 
 elif menu == "Webcam Real-time":
-    class VideoProcessor(VideoTransformerBase):
-        def transform(self, frame):
-            img = frame.to_ndarray(format="bgr24")
-            pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-            result = detect(pil_img)
-            return result  # Already BGR from detect()
-
     st.header("Real-time Detection")
+    run = st.checkbox("Start Camera")
+    frame_placeholder = st.empty()
 
-    webrtc_streamer(
-        key="realtime",
-        mode=WebRtcMode.SENDRECV,
-        rtc_configuration={
-            "iceServers": [
-                {"urls": ["stun:stun.l.google.com:19302"]},
-                {
-                    "urls": ["turn:openrelay.metered.ca:80", "turn:openrelay.metered.ca:443", "turn:openrelay.metered.ca:443?transport=tcp"],
-                    "username": "openrelayproject",
-                    "credential": "openrelayproject"
-                }
-            ]
-        },
-        video_processor_factory=VideoProcessor,
-        media_stream_constraints={"video": True, "audio": False},
-        video_html_attrs={"autoPlay": True, "controls": False, "style": {"width": "100%", "height": "480px"}},
-    )
+    if run:
+        cap = cv2.VideoCapture(0)
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                st.warning("Failed to grab frame.")
+                break
+
+            # Convert to RGB for PIL
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            image_pil = Image.fromarray(frame_rgb)
+
+            # Run detection
+            result_img = detect(image_pil)
+            frame_placeholder.image(result_img, channels="RGB", use_column_width=True)
+
+        cap.release()
+    else:
+        st.info("Camera stopped. Check the box above to start.")
