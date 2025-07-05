@@ -220,31 +220,49 @@ if menu == "Home":
 # Upload image page
 elif menu == "Upload Image":
     st.header("Upload Image")
-    uploaded_file = st.file_uploader("Upload a bottle image", type=["jpg", "jpeg", "png"])
 
+    uploaded_file = st.file_uploader("Upload a bottle image", type=["jpg", "jpeg", "png"])
     col1, col2 = st.columns(2)
 
     if uploaded_file:
         image = Image.open(uploaded_file).convert("RGB")
-        col1.image(image, caption="Original Image", use_container_width=True)
-        if col1.button("🔍 Detect"):
+        col1.image(image, caption="Uploaded Image", use_container_width=True)
+        if col1.button("🔍 Detect Uploaded"):
             result = detect(image)
             col2.image(result, caption="Detection Result", use_container_width=True)
-    else:
-        st.info("No image uploaded. Here's a sample image from GitHub you can try.")
-        
-        # Ganti URL ini dengan path raw file gambar dari GitHub-mu
-        github_raw_url = "https://raw.githubusercontent.com/sulthandhafirr/Plastic-Bottle-Defect-Detection/main/sample.jpg"
-        try:
-            response = requests.get(github_raw_url)
-            image = Image.open(BytesIO(response.content)).convert("RGB")
-            col1.image(image, caption="Sample Image from GitHub", use_container_width=True)
-            if col1.button("🔍 Detect on Sample"):
-                result = detect(image)
-                col2.image(result, caption="Detection Result", use_container_width=True)
-        except Exception as e:
-            st.warning("Failed to load sample image from GitHub.")
-            st.text(str(e))
+
+    st.markdown("---")
+    st.subheader("Or Try Sample Image from GitHub")
+
+    # Daftar gambar dalam folder sample/ di GitHub
+    sample_images = [
+        "sample1.png",
+        "sample2.png",
+        "sample3.png",
+        "sample4.png",
+        "sample5.png",
+        "sample6.jpg"
+    ]
+
+    selected_sample = st.selectbox("Choose a sample image", sample_images)
+
+    github_raw_base = "https://github.com/sulthandhafirr/Plastic-Bottle-Defect-Detection/main/sample"
+    github_raw_url = f"{github_raw_base}/{selected_sample}"
+
+    try:
+        import requests
+        from io import BytesIO
+
+        response = requests.get(github_raw_url)
+        image = Image.open(BytesIO(response.content)).convert("RGB")
+        col1.image(image, caption=f"Sample: {selected_sample}", use_container_width=True)
+
+        if col1.button("🔍 Detect Sample"):
+            result = detect(image)
+            col2.image(result, caption="Detection Result", use_container_width=True)
+    except Exception as e:
+        st.warning("Failed to load sample image from GitHub.")
+        st.text(str(e))
             
 # Webcam page
 elif menu == "Webcam Real-time":
