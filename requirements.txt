@@ -3,3 +3,4 @@ onnxruntime
 opencv-python
 numpy
 Pillow
+streamlit-webrtc
