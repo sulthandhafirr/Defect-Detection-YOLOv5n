@@ -208,6 +208,8 @@ if menu == "Home":
             </a>
         </p>
 
+        <hr>
+
         <p class='footer'>
             Developed by: <b>Sulthan Dhafir Rafief</b>
         </p>
