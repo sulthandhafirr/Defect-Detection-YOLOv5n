@@ -136,13 +136,16 @@ elif menu == "Webcam Real-time":
         key="realtime",
         mode=WebRtcMode.SENDRECV,
         rtc_configuration={
-            "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+            "iceServers": [
+                {"urls": ["stun:stun.l.google.com:19302"]},
+                {
+                    "urls": ["turn:openrelay.metered.ca:80", "turn:openrelay.metered.ca:443", "turn:openrelay.metered.ca:443?transport=tcp"],
+                    "username": "openrelayproject",
+                    "credential": "openrelayproject"
+                }
+            ]
         },
         video_processor_factory=VideoProcessor,
         media_stream_constraints={"video": True, "audio": False},
-        video_html_attrs={
-            "autoPlay": True,
-            "controls": False,
-            "style": {"width": "100%", "height": "480px"},
-        },
+        video_html_attrs={"autoPlay": True, "controls": False, "style": {"width": "100%", "height": "480px"}},
     )
