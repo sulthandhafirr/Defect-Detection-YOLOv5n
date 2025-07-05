@@ -50,7 +50,6 @@ In the terminal, navigate to the project folder and run:
 
 ```bash
 streamlit run app.py
-A browser tab will open at:
 ```
 or 
 ```bash
