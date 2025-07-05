@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 from PIL import Image
+import requests
+from io import BytesIO
 
 # Load model ONNX
 @st.cache_resource
@@ -219,14 +221,31 @@ if menu == "Home":
 elif menu == "Upload Image":
     st.header("Upload Image")
     uploaded_file = st.file_uploader("Upload a bottle image", type=["jpg", "jpeg", "png"])
+
     col1, col2 = st.columns(2)
+
     if uploaded_file:
         image = Image.open(uploaded_file).convert("RGB")
         col1.image(image, caption="Original Image", use_container_width=True)
         if col1.button("🔍 Detect"):
             result = detect(image)
             col2.image(result, caption="Detection Result", use_container_width=True)
-
+    else:
+        st.info("No image uploaded. Here's a sample image from GitHub you can try.")
+        
+        # Ganti URL ini dengan path raw file gambar dari GitHub-mu
+        github_raw_url = "https://raw.githubusercontent.com/sulthandhafirr/Plastic-Bottle-Defect-Detection/main/sample.jpg"
+        try:
+            response = requests.get(github_raw_url)
+            image = Image.open(BytesIO(response.content)).convert("RGB")
+            col1.image(image, caption="Sample Image from GitHub", use_container_width=True)
+            if col1.button("🔍 Detect on Sample"):
+                result = detect(image)
+                col2.image(result, caption="Detection Result", use_container_width=True)
+        except Exception as e:
+            st.warning("Failed to load sample image from GitHub.")
+            st.text(str(e))
+            
 # Webcam page
 elif menu == "Webcam Real-time":
     st.header("Real-time Camera")
