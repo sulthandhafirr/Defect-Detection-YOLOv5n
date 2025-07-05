@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 from PIL import Image
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+from streamlit_webrtc import webrtc_streamer, WebRtcMode
 import av
 
 # Load model ONNX
