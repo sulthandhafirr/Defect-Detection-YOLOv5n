@@ -41,7 +41,6 @@ def preprocess(image):
     return img, ratio, dw, dh
 
 # Post-process ONNX output
-# --- Tambahan fungsi bantu ---
 def iou(box1, box2):
     xi1 = max(box1[0], box2[0])
     yi1 = max(box1[1], box2[1])
@@ -222,56 +221,55 @@ elif menu == "Upload Image":
         st.session_state.sample_active = False
 
     uploaded_file = st.file_uploader("Upload a bottle image", type=["jpg", "jpeg", "png"])
-
     col1, col2 = st.columns(2)
 
     if uploaded_file:
         st.session_state.uploaded_active = True
         st.session_state.sample_active = False
 
-        image = Image.open(uploaded_file).convert("RGB")
-        col1.image(image, caption="Uploaded Image", use_container_width=True)
+        uploaded_image = Image.open(uploaded_file).convert("RGB")
+        col1.image(uploaded_image, caption="Uploaded Image", use_container_width=True)
 
         if col1.button("🔍 Detect Uploaded"):
-            result = detect(image)
+            result = detect(uploaded_image)
             col2.image(result, caption="Detection Result", use_container_width=True)
 
-    if not st.session_state.uploaded_active:
-        st.markdown("---")
-        st.subheader("Or Try Sample Image from GitHub")
+    st.markdown("---")
+    st.subheader("Or Try Sample Image from GitHub")
 
-        sample_images = [
-            "sample1.png",
-            "sample2.png",
-            "sample3.png",
-            "sample4.png",
-            "sample5.png",
-            "sample6.jpg"
-        ]
+    sample_images = [
+        "sample1.png",
+        "sample2.png",
+        "sample3.png",
+        "sample4.png",
+        "sample5.png",
+        "sample6.jpg"
+    ]
 
-        selected_sample = st.selectbox("Choose a sample image", sample_images)
+    selected_sample = st.selectbox("Choose a sample image", sample_images)
 
-        github_raw_base = "https://raw.githubusercontent.com/sulthandhafirr/Defect-Detection-YOLOv5n/main/sample"
-        github_raw_url = f"{github_raw_base}/{selected_sample}"
+    github_raw_base = "https://raw.githubusercontent.com/sulthandhafirr/Defect-Detection-YOLOv5n/main/sample"
+    github_raw_url = f"{github_raw_base}/{selected_sample}"
 
-        try:
-            import requests
-            from io import BytesIO
+    try:
+        import requests
+        from io import BytesIO
 
-            response = requests.get(github_raw_url)
-            image = Image.open(BytesIO(response.content)).convert("RGB")
+        response = requests.get(github_raw_url)
+        sample_image = Image.open(BytesIO(response.content)).convert("RGB")
 
-            col1.image(image, caption=f"Sample: {selected_sample}", use_container_width=True)
+        col1.image(sample_image, caption=f"Sample: {selected_sample}", use_container_width=True)
 
+        if not uploaded_file:
             if col1.button("🔍 Detect Sample"):
                 st.session_state.sample_active = True
                 st.session_state.uploaded_active = False
-                result = detect(image)
+                result = detect(sample_image)
                 col2.image(result, caption="Detection Result", use_container_width=True)
 
-        except Exception as e:
-            st.warning("Failed to load sample image from GitHub.")
-            st.text(str(e))
+    except Exception as e:
+        st.warning("Failed to load sample image from GitHub.")
+        st.text(str(e))
             
 # Webcam page
 elif menu == "Webcam Real-time":
