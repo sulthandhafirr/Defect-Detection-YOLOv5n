@@ -3,22 +3,24 @@ import cv2
 import numpy as np
 import onnxruntime as ort
 from PIL import Image
-from streamlit_webrtc import webrtc_streamer, WebRtcMode
+from streamlit_webrtc import webrtc_streamer, WebRtcMode, VideoTransformerBase
 import av
 
 # Load model ONNX
 @st.cache_resource
 def load_model():
-    return ort.InferenceSession("yolov5s_bottle6.onnx")
+    try:
+        return ort.InferenceSession("yolov5s_bottle6.onnx")
+    except Exception as e:
+        st.error(f"Failed to load model: {e}")
+        return None
 
 session = load_model()
-
-# Class names
 CLASS_NAMES = ['defect', 'normal']
 
 # Letterbox resize
 def letterbox(im, new_shape=640, color=(114, 114, 114)):
-    shape = im.shape[:2]  # current shape [height, width]
+    shape = im.shape[:2]
     r = min(new_shape / shape[0], new_shape / shape[1])
     new_unpad = (int(round(shape[1] * r)), int(round(shape[0] * r)))
     dw, dh = new_shape - new_unpad[0], new_shape - new_unpad[1]
@@ -30,17 +32,14 @@ def letterbox(im, new_shape=640, color=(114, 114, 114)):
     im = cv2.copyMakeBorder(im, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
     return im, r, (dw, dh)
 
-# Preprocess image
 def preprocess(image):
     img = np.array(image)
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     img, ratio, (dw, dh) = letterbox(img, new_shape=640)
-    img = img.transpose(2, 0, 1)  # HWC to CHW
-    img = np.expand_dims(img, 0).astype(np.float32)
-    img /= 255.0
+    img = img.transpose(2, 0, 1)
+    img = np.expand_dims(img, 0).astype(np.float32) / 255.0
     return img, ratio, dw, dh
 
-# IOU + NMS for postprocessing
 def iou(box1, box2):
     xi1 = max(box1[0], box2[0])
     yi1 = max(box1[1], box2[1])
@@ -61,7 +60,6 @@ def nms_numpy(boxes, iou_threshold=0.45):
         boxes = [box for box in boxes if iou(chosen["bbox"], box["bbox"]) < iou_threshold]
     return final_boxes
 
-# Postprocess model output
 def postprocess(prediction, img_shape, ratio, dw, dh, conf_thres=0.5, iou_thres=0.45):
     boxes = []
     pred = prediction[0]
@@ -81,7 +79,6 @@ def postprocess(prediction, img_shape, ratio, dw, dh, conf_thres=0.5, iou_thres=
         boxes.append({"bbox": (x1, y1, x2, y2), "conf": float(conf), "class": int(class_id)})
     return nms_numpy(boxes, iou_threshold=iou_thres)
 
-# Draw bounding boxes
 def draw_boxes(img, boxes):
     for box in boxes:
         x1, y1, x2, y2 = box["bbox"]
@@ -93,8 +90,9 @@ def draw_boxes(img, boxes):
         cv2.putText(img, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
     return img
 
-# Inference pipeline
 def detect(image):
+    if session is None:
+        return np.array(image)
     img_np = np.array(image)
     input_tensor, ratio, dw, dh = preprocess(image)
     outputs = session.run(None, {"images": input_tensor})[0]
@@ -104,7 +102,7 @@ def detect(image):
 
 # Streamlit UI
 st.set_page_config(page_title="Bottle Defect Detection", layout="centered", page_icon="🧴")
-menu = st.sidebar.selectbox("Select Page", ["Home", "Upload Image", "Webcam Real-time"], label_visibility="visible")
+menu = st.sidebar.selectbox("Select Page", ["Home", "Upload Image", "Webcam Real-time"])
 
 if menu == "Home":
     st.title("Plastic Bottle Defect Detection")
@@ -120,23 +118,20 @@ elif menu == "Upload Image":
         image = Image.open(uploaded_file).convert("RGB")
         st.image(image, caption="Original Image", use_column_width=True)
         if st.button("🔍 Detect"):
-            result = detect(image)
-            st.image(result, caption="Detection Result", use_container_width=True)
+            with st.spinner("Running detection..."):
+                result = detect(image)
+                st.image(result, caption="Detection Result", use_container_width=True)
 
 elif menu == "Webcam Real-time":
     class VideoProcessor(VideoTransformerBase):
         def transform(self, frame):
             img = frame.to_ndarray(format="bgr24")
-            
-            # Convert ke PIL Image dulu untuk `detect()` kamu
             pil_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
             result = detect(pil_img)
-            
-            # Pastikan hasil detect() berupa ndarray BGR agar bisa ditampilkan
-            return cv2.cvtColor(result, cv2.COLOR_RGB2BGR)
+            return result  # Already BGR from detect()
 
     st.header("Real-time Detection")
-    
+
     webrtc_streamer(
         key="realtime",
         mode=WebRtcMode.SENDRECV,
@@ -148,6 +143,6 @@ elif menu == "Webcam Real-time":
         video_html_attrs={
             "autoPlay": True,
             "controls": False,
-            "style": {"width": "100%", "height": "480px"},  # Kamera besar
+            "style": {"width": "100%", "height": "480px"},
         },
     )
