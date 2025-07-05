@@ -13,12 +13,11 @@ def load_model():
 
 session = load_model()
 
-# Class names (ubah sesuai datasetmu)
 CLASS_NAMES = ['defect', 'normal']
 
 # Letterbox resize
 def letterbox(im, new_shape=640, color=(114, 114, 114)):
-    shape = im.shape[:2]  # current shape [height, width]
+    shape = im.shape[:2]
     r = min(new_shape / shape[0], new_shape / shape[1])
     new_unpad = (int(round(shape[1] * r)), int(round(shape[0] * r)))
     dw, dh = new_shape - new_unpad[0], new_shape - new_unpad[1]
@@ -64,10 +63,10 @@ def nms_numpy(boxes, iou_threshold=0.45):
         ]
     return final_boxes
 
-# --- Fungsi utama postprocess ---
+# --- postprocess ---
 def postprocess(prediction, img_shape, ratio, dw, dh, conf_thres=0.5, iou_thres=0.45):
     boxes = []
-    pred = prediction[0]  # shape (25200, 85)
+    pred = prediction[0] 
     for det in pred:
         obj_conf = det[4]
         class_probs = det[5:]
