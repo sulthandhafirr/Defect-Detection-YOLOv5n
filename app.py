@@ -246,7 +246,7 @@ elif menu == "Upload Image":
 
     selected_sample = st.selectbox("Choose a sample image", sample_images)
 
-    github_raw_base = "https://github.com/sulthandhafirr/Plastic-Bottle-Defect-Detection/main/sample"
+    github_raw_base = "https://raw.githubusercontent.com/sulthandhafirr/Defect-Detection-YOLOv5n/main/sample"
     github_raw_url = f"{github_raw_base}/{selected_sample}"
 
     try:
