@@ -64,3 +64,4 @@ http://localhost:8501
 
 ---
 Developed by: Sulthan Dhafir Rafief
+Demo: https://plastic-bottle-defect-detection.streamlit.app/
