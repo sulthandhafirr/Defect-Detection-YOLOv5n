@@ -62,6 +62,7 @@ http://localhost:8501
 - Conversion to ONNX: PyTorch → ONNX export
 - Web Interface: Streamlit
 
+Demo: https://plastic-bottle-defect-detection.streamlit.app/
+
 ---
 Developed by: Sulthan Dhafir Rafief
-Demo: https://plastic-bottle-defect-detection.streamlit.app/
