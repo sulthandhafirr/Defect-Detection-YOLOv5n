@@ -21,7 +21,7 @@ You can open this notebook in Google Colab or locally using Jupyter Notebook.
 3. Make sure the dataset path in the notebook points to your extracted bottledataset6/ folder.
 
 
-## How to Run `app.py` Locally
+# How to Run `app.py` Locally
 
 Follow these steps to run the app on your local machine:
 
